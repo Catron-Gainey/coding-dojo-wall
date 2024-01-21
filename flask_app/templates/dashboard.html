@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    <title>Success</title>
+</head>
+<body>
+    <div style="display: block;">
+        {% with messages = get_flashed_messages() %}<!-- declare a variable called messages -->
+            {% if messages %}<!-- check if there are any messages -->
+                {% for message in messages %}<!-- loop through the messages -->
+                    <p>{{message}}</p><!-- display each message in a paragraph tag -->
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+    <h1>Welcome {{ session.first_name }}!!!!!!!!</h1>
+    <Form action='/logout' method='post'>
+        <input type='submit' value='Log out' style="display: block;">
+    </Form>
+
+    <Form action='/create/post' method='post'>
+        <label>
+            What's on your mind? Create a new post.  
+            <textarea style="display: block;" id="" name="content" rows="4" cols="50"></textarea><br><br>
+        </label>
+        <input type='submit' value='Publish' style="display: block;">
+    </Form>
+    <hr>
+    <h2> All community posts</h2>
+    {% for posts in posts_and_users   %}
+        <p><em>{{posts.user.first_name}} says  -  {{posts.created_at.strftime("%b %d")}}  </em></p>
+        <p> {{posts.content}}</p>
+        {% if session_user_id == posts.user.id %}
+            <a href="delete/{{posts.id}}">Delete</a>
+        {% endif %}
+            <Form action='/create/comment/{{posts.id}}' method='post'>
+                <label>
+                    Post a comment.  
+                    <textarea style="display: block;" id="" name="content" rows="2" cols="25"></textarea><br><br>
+                </label>
+                <input type='submit' value='Comment' style="display: block;">
+            </Form>
+        <hr>
+    {% endfor %}
+
+</body>
+</html>
