@@ -9,7 +9,7 @@ from flask_app.models import user
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 class Post:
-    db = "coding_dojo_wall" #which database are you using for this project
+    db = "coding_dojo_wall" 
     def __init__(self, data):
         self.id = data['id']
         self.user_id = data['user_id']
